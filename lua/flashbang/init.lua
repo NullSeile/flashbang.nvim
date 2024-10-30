@@ -16,7 +16,6 @@ function Flashbang.setup(opts)
         sound.play("flashbang")
         local timer = vim.loop.new_timer()
         local current = vim.g.colors_name
-        print(current)
         timer:start(
             1300,
             0,
