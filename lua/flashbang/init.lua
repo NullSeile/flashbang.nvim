@@ -4,7 +4,7 @@ local sound = require("flashbang.sound")
 local Flashbang = {}
 
 local function deploy()
-    local duration = _G.Flashbang.config.duration * 1000
+    local duration = config.options.duration * 1000
     sound.play("flashbang")
     local timer = vim.uv.new_timer()
     local current = vim.g.colors_name
