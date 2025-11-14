@@ -2,14 +2,10 @@ local config = require("flashbang.config")
 local sound = require("flashbang.sound")
 
 local Flashbang = {}
+_G.Flashbang.config = config.setup({})
 
 local function deploy()
-    local duration = 2.5 * 1000
-    local light_theme = "dalek"
-    if config ~= nil then
-        duration = config.options.duration * 1000
-        light_theme = _G.Flashbang.config.light_theme
-    end
+    local duration = _G.Flashbang.config.duration * 1000
     sound.play("flashbang")
     local timer = vim.uv.new_timer()
     local current = vim.g.colors_name
@@ -17,7 +13,7 @@ local function deploy()
         1300,
         0,
         vim.schedule_wrap(function()
-            vim.cmd("colorscheme " .. light_theme)
+            vim.cmd("colorscheme " .. _G.Flashbang.config.light_theme)
             vim.cmd("set background=light")
             timer:start(
                 duration,
