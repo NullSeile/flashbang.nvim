@@ -6,6 +6,7 @@ local Flashbang = {}
 --- Default values:
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 Flashbang.options = {
+    enabled = true,
     min_interval = 5,
     max_interval = 20,
     duration = 2.5,

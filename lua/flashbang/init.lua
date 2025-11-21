@@ -36,21 +36,23 @@ function Flashbang.setup(opts)
 
     sound.detect_provider()
 
-    local min_interval = _G.Flashbang.config.min_interval * 1000 * 60
-    local max_interval = _G.Flashbang.config.max_interval * 1000 * 60
+    if _G.Flashbang.config.enabled then
+        local min_interval = _G.Flashbang.config.min_interval * 1000 * 60
+        local max_interval = _G.Flashbang.config.max_interval * 1000 * 60
 
-    local timer = vim.uv.new_timer()
-    local function recurring_deploy()
-        timer:start(
-            math.random(min_interval, max_interval),
-            0,
-            vim.schedule_wrap(function()
-                deploy()
-                recurring_deploy()
-            end)
-        )
+        local timer = vim.uv.new_timer()
+        local function recurring_deploy()
+            timer:start(
+                math.random(min_interval, max_interval),
+                0,
+                vim.schedule_wrap(function()
+                    deploy()
+                    recurring_deploy()
+                end)
+            )
+        end
+        recurring_deploy()
     end
-    recurring_deploy()
 end
 
 _G.Flashbang = Flashbang
