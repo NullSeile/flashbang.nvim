@@ -8,6 +8,7 @@ local function deploy()
     sound.play("flashbang")
     local timer = vim.uv.new_timer()
     local current = _G.Flashbang.current_theme or vim.g.colors_name or "default"
+    local current_background = _G.Flashbang.current_background or vim.o.background or "dark"
     timer:start(
         1300,
         0,
@@ -18,7 +19,7 @@ local function deploy()
                 duration,
                 0,
                 vim.schedule_wrap(function()
-                    vim.o.background = _G.Flashbang.current_background or "dark"
+                    vim.o.background = current_background
                     vim.cmd.colorscheme(current)
                 end)
             )
