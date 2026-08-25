@@ -7,19 +7,19 @@ local function deploy()
     local duration = _G.Flashbang.config.duration * 1000
     sound.play("flashbang")
     local timer = vim.uv.new_timer()
-    local current = vim.g.colors_name
+    local current = _G.Flashbang.current_theme or vim.g.colors_name or "default"
     timer:start(
         1300,
         0,
         vim.schedule_wrap(function()
-            vim.cmd("colorscheme " .. _G.Flashbang.config.light_theme)
-            vim.cmd("set background=light")
+            vim.cmd.colorscheme(_G.Flashbang.config.light_theme)
+            vim.o.background = "light"
             timer:start(
                 duration,
                 0,
                 vim.schedule_wrap(function()
-                    vim.cmd("colorscheme " .. current)
-                    vim.cmd("set background=dark")
+                    vim.o.background = _G.Flashbang.current_background or "dark"
+                    vim.cmd.colorscheme(current)
                 end)
             )
         end)
@@ -41,6 +41,10 @@ function Flashbang.setup(opts)
         local max_interval = _G.Flashbang.config.max_interval * 1000 * 60
 
         local timer = vim.uv.new_timer()
+        if not timer then
+            vim.notify("Failed to create timer for flashbang", vim.log.levels.ERROR)
+            return
+        end
         local function recurring_deploy()
             timer:start(
                 math.random(min_interval, max_interval),
